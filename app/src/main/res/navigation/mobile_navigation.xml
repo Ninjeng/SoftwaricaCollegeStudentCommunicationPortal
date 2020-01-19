@@ -3,23 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/navigation_chat">
 
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="com.ninjeng.softwaricacollegestudentcommunicationportal.ui.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/navigation_chat"
+        android:name="com.ninjeng.softwaricacollegestudentcommunicationportal.Fragments.ChatFragment"
+        android:label="Chat"
+        tools:layout="@layout/fragment_chat" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.ninjeng.softwaricacollegestudentcommunicationportal.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_people"
+        android:name="com.ninjeng.softwaricacollegestudentcommunicationportal.Fragments.PeopleFragment"
+        android:label="People"
+        tools:layout="@layout/fragment_people" />
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.ninjeng.softwaricacollegestudentcommunicationportal.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:name="com.ninjeng.softwaricacollegestudentcommunicationportal.Fragments.AddPeopleFragnment"
+        android:label="Add friends"
+        tools:layout="@layout/fragment_add_people_fragnment" />
 </navigation>
