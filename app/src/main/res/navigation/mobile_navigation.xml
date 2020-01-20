@@ -18,8 +18,8 @@
         tools:layout="@layout/fragment_people" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.ninjeng.softwaricacollegestudentcommunicationportal.Fragments.AddPeopleFragnment"
+        android:id="@+id/navigation_aboutus"
+        android:name="com.ninjeng.softwaricacollegestudentcommunicationportal.Fragments.AboutusFragment"
         android:label="Add friends"
         tools:layout="@layout/fragment_add_people_fragnment" />
 </navigation>
