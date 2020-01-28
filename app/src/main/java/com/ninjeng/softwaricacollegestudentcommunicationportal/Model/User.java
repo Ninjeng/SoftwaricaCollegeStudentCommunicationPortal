@@ -7,12 +7,14 @@ public class User {
     private String Batch;
     private String Password;
 
-    public User(String studentId, String fullname, String email, String batch, String password) {
+    public User(String studentId, String fullname, String email, String batch) {
         StudentId = studentId;
         Fullname = fullname;
         Email = email;
         Batch = batch;
-        Password = password;
+    }
+
+    public User() {
     }
 
     public String getStudentId() {

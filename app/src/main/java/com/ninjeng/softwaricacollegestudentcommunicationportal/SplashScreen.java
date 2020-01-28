@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 
 public class SplashScreen extends AppCompatActivity {
 
@@ -29,7 +30,7 @@ public class SplashScreen extends AppCompatActivity {
                 else
                 {
                     Intent intent;
-                    intent = new Intent(getApplicationContext(), MainActivity.class);
+                    intent = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(intent);
                     finish();
                 }
