@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class SplashScreen extends AppCompatActivity {
 
     @Override
@@ -18,23 +21,9 @@ public class SplashScreen extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                SharedPreferences sharedPreferences = getSharedPreferences("UserData",MODE_PRIVATE);
-                String StudentId= sharedPreferences.getString("StudentId","");
-                String Password= sharedPreferences.getString("Password","");
-                if(StudentId.equals("00175018")&& Password.equals("password"))
-                {
-                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-                else
-                {
-                    Intent intent;
-                    intent = new Intent(getApplicationContext(), LoginActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
+                finish();
             }
         },1000);
     }

@@ -5,16 +5,18 @@
     android:layout_width="match_parent"
     android:layout_marginLeft="20dp"
     android:layout_marginRight="20dp"
+    android:layout_marginTop="20dp"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".SignupActivity">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tvstudentId"
+        android:id="@+id/tvstdId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
+            android:inputType="number"
             android:hint="Enter Student Id"
             android:layout_height="wrap_content"/>
     </com.google.android.material.textfield.TextInputLayout>
@@ -28,16 +30,7 @@
             android:hint="Enter Full name"
             android:layout_height="wrap_content"/>
     </com.google.android.material.textfield.TextInputLayout>
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tvStudentId"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:inputType="number"
-            android:hint="Student Id"
-            android:layout_height="wrap_content"/>
-    </com.google.android.material.textfield.TextInputLayout>
+
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/etEmail"

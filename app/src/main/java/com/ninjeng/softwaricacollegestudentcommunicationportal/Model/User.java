@@ -6,12 +6,28 @@ public class User {
     private String Email;
     private String Batch;
     private String Password;
+    private String profileImage;
 
-    public User(String studentId, String fullname, String email, String batch) {
+    public User(String studentId, String fullname, String email, String batch, String profileImage) {
         StudentId = studentId;
         Fullname = fullname;
         Email = email;
         Batch = batch;
+        this.profileImage = profileImage;
+    }
+
+    public User(String studentId, String fullname, String profileImage) {
+        StudentId = studentId;
+        Fullname = fullname;
+        this.profileImage = profileImage;
+    }
+
+    public String getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage;
     }
 
     public User() {

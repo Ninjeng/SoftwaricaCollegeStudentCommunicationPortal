@@ -15,7 +15,7 @@
         app:srcCompat="@drawable/soft" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/studentId"
+        android:id="@+id/email"
         android:layout_marginTop="30dp"
         android:layout_width="match_parent"
         android:layout_marginLeft="25dp"
@@ -23,8 +23,7 @@
         android:layout_height="wrap_content">
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
-            android:inputType="number"
-            android:hint="Student Id"
+            android:hint="Email"
             android:layout_height="wrap_content"/>
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
