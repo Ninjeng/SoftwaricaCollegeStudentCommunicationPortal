@@ -24,18 +24,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     Button btnLogin, btnSignup;
     FirebaseUser firebaseUser;
     FirebaseAuth auth;
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-//
-//        if(firebaseUser!=null)
-//        {
-//            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-//            startActivity(intent);
-//            finish();
-//        }
-//    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        if(firebaseUser!=null)
+        {
+            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

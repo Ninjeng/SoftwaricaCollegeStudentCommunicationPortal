@@ -64,16 +64,6 @@ public class SignupActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if(myauth.getCurrentUser() !=null)
-        {
-
-
-        }
-    }
-
     private void registerUser() {
         final String id= etStudentId.getEditText().getText().toString();
         final String name= etFullname.getEditText().getText().toString();
@@ -81,8 +71,6 @@ public class SignupActivity extends AppCompatActivity {
         final String email= etEmail.getEditText().getText().toString();
         final String password= etPassword.getEditText().getText().toString();
         final String profileimage= "default";
-
-
         myauth.createUserWithEmailAndPassword(email,password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override

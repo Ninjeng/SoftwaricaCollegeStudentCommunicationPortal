@@ -45,33 +45,6 @@ public class ChatFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_chat, container, false);
-
-
-        profileImage=view.findViewById(R.id.profile_image);
-        tvUsername=view.findViewById(R.id.username);
-
-        firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
-        reference= FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                User user = dataSnapshot.getValue(User.class);
-                tvUsername.setText(user.getFullname());
-                if(user.getProfileImage().equals("default"))
-                {
-                    profileImage.setImageResource(R.mipmap.ic_launcher);
-                }
-                else {
-                    Glide.with(getContext()).load(user.getProfileImage()).into(profileImage);
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
         return view;
     }
 
