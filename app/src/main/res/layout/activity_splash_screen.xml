@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:background="#4E99D7"
-    tools:context=".SplashScreen">
+    tools:context=".Activities.SplashScreen">
 <ImageView
     android:src="@drawable/softlogo2"
     android:layout_width="300dp"

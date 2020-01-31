@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".Activities.LoginActivity">
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="match_parent"

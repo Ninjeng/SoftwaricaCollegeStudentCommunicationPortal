@@ -1,15 +1,12 @@
-package com.ninjeng.softwaricacollegestudentcommunicationportal;
+package com.ninjeng.softwaricacollegestudentcommunicationportal.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TableLayout;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -22,6 +19,7 @@ import com.ninjeng.softwaricacollegestudentcommunicationportal.Fragments.Aboutus
 import com.ninjeng.softwaricacollegestudentcommunicationportal.Fragments.AddPeopleFragnment;
 import com.ninjeng.softwaricacollegestudentcommunicationportal.Fragments.ChatFragment;
 import com.ninjeng.softwaricacollegestudentcommunicationportal.Model.User;
+import com.ninjeng.softwaricacollegestudentcommunicationportal.R;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,10 +27,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 import androidx.viewpager.widget.ViewPager;
 
 import java.util.ArrayList;
@@ -79,9 +73,9 @@ public class MainActivity extends AppCompatActivity {
         ViewPager viewPager = findViewById(R.id.view_pager);
 
         ViewpagerAdapter viewpagerAdapter = new ViewpagerAdapter(getSupportFragmentManager());
-        viewpagerAdapter.addFragments(new ChatFragment(),"Chats");
-        viewpagerAdapter.addFragments(new AddPeopleFragnment(),"Add friends");
-        viewpagerAdapter.addFragments(new AboutusFragment(),"AboutUs");
+        viewpagerAdapter.addFragments(new ChatFragment(),"Chat");
+        viewpagerAdapter.addFragments(new AddPeopleFragnment(),"Friend list");
+        viewpagerAdapter.addFragments(new AboutusFragment(),"About us");
         viewPager.setAdapter(viewpagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
     }

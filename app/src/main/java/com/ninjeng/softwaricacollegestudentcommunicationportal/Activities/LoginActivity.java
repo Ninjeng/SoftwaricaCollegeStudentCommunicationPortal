@@ -1,11 +1,9 @@
-package com.ninjeng.softwaricacollegestudentcommunicationportal;
+package com.ninjeng.softwaricacollegestudentcommunicationportal.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -18,6 +16,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.ninjeng.softwaricacollegestudentcommunicationportal.R;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
     TextInputLayout etStudenId, etPassword;

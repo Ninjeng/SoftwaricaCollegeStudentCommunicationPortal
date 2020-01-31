@@ -1,6 +1,7 @@
 package com.ninjeng.softwaricacollegestudentcommunicationportal.Model;
 
 public class User {
+    private String id;
     private String StudentId;
     private String Fullname;
     private String Email;
@@ -8,7 +9,8 @@ public class User {
     private String Password;
     private String profileImage;
 
-    public User(String studentId, String fullname, String email, String batch, String profileImage) {
+    public User(String id,String studentId, String fullname, String email, String batch, String profileImage) {
+        this.id=id;
         StudentId = studentId;
         Fullname = fullname;
         Email = email;
@@ -20,6 +22,14 @@ public class User {
         StudentId = studentId;
         Fullname = fullname;
         this.profileImage = profileImage;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getProfileImage() {
