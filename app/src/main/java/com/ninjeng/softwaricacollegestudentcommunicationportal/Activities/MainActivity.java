@@ -38,6 +38,12 @@ public class MainActivity extends AppCompatActivity {
     TextView tvUsername;
     FirebaseUser firebaseUser;
     DatabaseReference reference;
+    private int[] tabIcons = {
+            R.drawable.ic_action_chat,
+            R.drawable.ic_action_people,
+            R.drawable.ic_audiotrack_dark
+    };
+    private TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        TabLayout tabLayout = findViewById(R.id.tab_layout);
+        tabLayout = findViewById(R.id.tab_layout);
         ViewPager viewPager = findViewById(R.id.view_pager);
 
         ViewpagerAdapter viewpagerAdapter = new ViewpagerAdapter(getSupportFragmentManager());
@@ -78,6 +84,12 @@ public class MainActivity extends AppCompatActivity {
         viewpagerAdapter.addFragments(new AboutusFragment(),"About us");
         viewPager.setAdapter(viewpagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
+        setupTabIcons();
+    }
+    private void setupTabIcons() {
+        tabLayout.getTabAt(0).setIcon(tabIcons[0]);
+        tabLayout.getTabAt(1).setIcon(tabIcons[1]);
+        tabLayout.getTabAt(2).setIcon(tabIcons[2]);
     }
 
 
