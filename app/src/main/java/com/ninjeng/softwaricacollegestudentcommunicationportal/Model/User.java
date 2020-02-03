@@ -8,20 +8,30 @@ public class User {
     private String Batch;
     private String Password;
     private String profileImage;
+    private String status;
 
-    public User(String id,String studentId, String fullname, String email, String batch, String profileImage) {
+    public User(String id,String studentId, String fullname, String email, String batch, String profileImage,String status) {
         this.id=id;
         StudentId = studentId;
         Fullname = fullname;
         Email = email;
         Batch = batch;
         this.profileImage = profileImage;
+        this.status = status;
     }
 
     public User(String studentId, String fullname, String profileImage) {
         StudentId = studentId;
         Fullname = fullname;
         this.profileImage = profileImage;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getId() {

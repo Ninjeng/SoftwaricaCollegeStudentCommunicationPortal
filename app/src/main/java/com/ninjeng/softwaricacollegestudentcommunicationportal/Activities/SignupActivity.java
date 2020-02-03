@@ -67,13 +67,14 @@ public class SignupActivity extends AppCompatActivity {
         final String email= etEmail.getEditText().getText().toString();
         final String password= etPassword.getEditText().getText().toString();
         final String profileimage= "default";
+        final String status= "online";
         myauth.createUserWithEmailAndPassword(email,password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful())
                         {
-                            User user = new User(FirebaseAuth.getInstance().getCurrentUser().getUid(),id,name,email,batch,profileimage);
+                            User user = new User(FirebaseAuth.getInstance().getCurrentUser().getUid(),id,name,email,batch,profileimage,status);
                             FirebaseDatabase.getInstance().getReference("Users")
                                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                     .setValue(user);

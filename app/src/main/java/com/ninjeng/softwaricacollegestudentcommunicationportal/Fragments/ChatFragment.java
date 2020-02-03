@@ -71,8 +71,9 @@ public class ChatFragment extends Fragment {
                         userList.add(chat.getMsgSender());
                     }
 
-                    readChat();
                 }
+                readChat();
+
             }
 
             @Override
@@ -85,7 +86,7 @@ public class ChatFragment extends Fragment {
 
     private void readChat() {
         users = new ArrayList<>();
-        reference = FirebaseDatabase.getInstance().getReference("User");
+        reference = FirebaseDatabase.getInstance().getReference("Users");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -113,7 +114,7 @@ public class ChatFragment extends Fragment {
                         }
                     }
                 }
-                userAdapter = new UserAdapter(getContext(),users);
+                userAdapter = new UserAdapter(getContext(),users,true);
                 recyclerView.setAdapter(userAdapter);
             }
 

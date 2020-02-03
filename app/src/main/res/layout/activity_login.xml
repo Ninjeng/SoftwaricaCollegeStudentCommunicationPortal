@@ -58,8 +58,17 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
-        android:layout_marginBottom="80dp"
         android:background="@drawable/roundedbutton"
         android:text="CREATE A NEW ACCOUNT"
         android:textSize="20dp"/>
+
+    <TextView
+        android:textAlignment="center"
+        android:paddingTop="15dp"
+        android:textSize="20dp"
+        android:textColor="@color/colorBlue"
+        android:id="@+id/forgotPassword"
+        android:text="Forgot password?"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 </LinearLayout>
