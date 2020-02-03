@@ -30,13 +30,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onStart() {
         super.onStart();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-
-        if(firebaseUser!=null)
-        {
-            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-            startActivity(intent);
-            finish();
-        }
+        FirebaseAuth.getInstance().signOut();
+//
+//        if(firebaseUser!=null)
+//        {
+//            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+//            startActivity(intent);
+//            finish();
+//        }
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
