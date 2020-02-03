@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "375124760463",
+    "firebase_url": "https://softwaricachattingapplication.firebaseio.com",
+    "project_id": "softwaricachattingapplication",
+    "storage_bucket": "softwaricachattingapplication.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:375124760463:android:b99cde52f3092283b49dfa",
+        "android_client_info": {
+          "package_name": "com.ninjeng.softwaricacollegestudentcommunicationportal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "375124760463-gghgn7np2a71m66sgsh1rv3n47ag4ndu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ninjeng.softwaricacollegestudentcommunicationportal",
+            "certificate_hash": "a08d3ed9e94e40ffc341054227b397d355128f14"
+          }
+        },
+        {
+          "client_id": "375124760463-j7c6vem8ga1jn77rittm8nncpojfl4cj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQgACQ4WOAZJUvz3g84aQ4Q64T8alWi7g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "375124760463-j7c6vem8ga1jn77rittm8nncpojfl4cj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
