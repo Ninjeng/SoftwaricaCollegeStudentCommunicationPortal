@@ -1,11 +1,17 @@
 package com.ninjeng.softwaricacollegestudentcommunicationportal.Activities;
 
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
@@ -95,6 +101,39 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(viewpagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcons();
+
+        SensorManager sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
+        final Sensor proximitySensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+        SensorEventListener sensorEventListener = new SensorEventListener() {
+            @Override
+            public void onSensorChanged(SensorEvent event) {
+                WindowManager.LayoutParams params = getWindow().getAttributes();
+                if(event.sensor.getType()==Sensor.TYPE_PROXIMITY){
+
+                    if(event.values[0]==0){
+                        params.flags |= WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
+                        params.screenBrightness = 0;
+                        getWindow().setAttributes(params);
+                    }
+                    else{
+                        params.flags |= WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
+                        params.screenBrightness = -1f;
+                        getWindow().setAttributes(params);
+                    }
+                }
+            }
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+            }
+        };
+        if (proximitySensor != null) {
+            sensorManager.registerListener(sensorEventListener, proximitySensor, sensorManager.SENSOR_DELAY_NORMAL);
+
+        }else {
+            Toast.makeText(this, "No sensor found", Toast.LENGTH_SHORT).show();
+        }
     }
     private void setupTabIcons() {
         tabLayout.getTabAt(0).setIcon(tabIcons[0]);
