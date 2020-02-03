@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -58,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                User user = dataSnapshot.getValue(User.class);
+                final User user = dataSnapshot.getValue(User.class);
                 tvUsername.setText(user.getFullname());
                 if(user.getProfileImage().equals("default"))
                 {
@@ -67,6 +68,14 @@ public class MainActivity extends AppCompatActivity {
                 else {
                     Glide.with(getApplicationContext()).load(user.getProfileImage()).into(profileImage);
                 }
+                tvUsername.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getApplicationContext(),ProfileActivity.class);
+                        intent.putExtra("userid",user.getId());
+                        startActivity(intent);
+                    }
+                });
 
             }
 
