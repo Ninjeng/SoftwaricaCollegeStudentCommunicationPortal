@@ -51,18 +51,27 @@
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <ImageButton
+            android:id="@+id/btnImage"
+            android:background="@drawable/ic_action_images"
+            android:layout_width="30dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="false"
+            android:layout_alignParentLeft="true"
+            android:layout_height="30dp"/>
 
         <EditText
             android:id="@+id/sendmessage"
             android:layout_toLeftOf="@id/btnsend"
+            android:layout_toRightOf="@id/btnImage"
             android:layout_width="match_parent"
             android:layout_centerVertical="true"
             android:hint="Message "
             android:layout_height="wrap_content"/>
         <ImageButton
             android:id="@+id/btnsend"
-
             android:background="@drawable/ic_action_sendmessage"
+            android:layout_centerVertical="true"
             android:layout_width="30dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"

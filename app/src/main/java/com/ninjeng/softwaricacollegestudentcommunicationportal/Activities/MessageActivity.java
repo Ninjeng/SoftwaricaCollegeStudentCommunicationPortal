@@ -1,12 +1,16 @@
 package com.ninjeng.softwaricacollegestudentcommunicationportal.Activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -23,12 +27,16 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
 import com.ninjeng.softwaricacollegestudentcommunicationportal.Adapter.MessageAdapter;
 import com.ninjeng.softwaricacollegestudentcommunicationportal.Fragments.PeopleFragment;
 import com.ninjeng.softwaricacollegestudentcommunicationportal.Model.Chat;
 import com.ninjeng.softwaricacollegestudentcommunicationportal.Model.User;
 import com.ninjeng.softwaricacollegestudentcommunicationportal.R;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,11 +50,15 @@ public class MessageActivity extends AppCompatActivity {
     List<Chat> chats;
     FirebaseUser firebaseUser;
     DatabaseReference refrences;
+    private String userid;
     MessageAdapter messageAdapter;
     Intent intent;
     RecyclerView recyclerView;
-    ImageButton btnSendMessage;
+    ImageButton btnSendMessage,btnSendImage;
     EditText texmessage;
+    private  String checker="",myuri;
+    private StorageTask storageTask;
+    private Uri fileUri;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,9 +81,10 @@ public class MessageActivity extends AppCompatActivity {
             }
         });
         btnSendMessage=findViewById(R.id.btnsend);
+        btnSendImage=findViewById(R.id.btnImage);
         texmessage=findViewById(R.id.sendmessage);
         intent=getIntent();
-        final String userid= intent.getStringExtra("userid");
+        userid= intent.getStringExtra("userid");
 
         btnSendMessage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,8 +123,63 @@ public class MessageActivity extends AppCompatActivity {
 
             }
         });
+        btnSendImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CharSequence option[] = new CharSequence[]
+                        {
+                                "Images",
+                                "PDF files",
+                                "Ms word files"
+                        };
+                AlertDialog.Builder builder = new AlertDialog.Builder(MessageActivity.this);
+                builder.setTitle("Select a file");
+                builder.setItems(option, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(which ==0)
+                        {
+                            checker ="image";
+                            Intent intent = new Intent();
+                            intent.setAction(Intent.ACTION_GET_CONTENT);
+                            intent.setType("image/*");
+                            startActivityForResult(intent.createChooser(intent,"Select image"),438);
+                        }
+                        if(which ==1)
+                        {
+                            checker ="image";
+                        }
+                        if(which ==2)
+                        {
+                            checker ="image";
+                        }
+                    }
+                });
+            }
+        });
     }
-    private void sendMessage(String sender, String reciver, String message)
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if( resultCode == 438 && data != null ) {
+            fileUri = data.getData();
+            if(!checker.equals("image"))
+            {
+
+            }
+            else if(checker.equals("image"))
+            {
+                StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("ImageFiless");
+            }
+            else {
+                Toast.makeText(this, "Select a image", Toast.LENGTH_SHORT).show();
+            }
+
+        }
+    }
+
+    private void sendMessage(final String sender, final String reciver, String message)
     {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         HashMap<String,Object> hashMap = new HashMap<>();
@@ -120,6 +188,21 @@ public class MessageActivity extends AppCompatActivity {
         hashMap.put("message",message);
         reference.child("Chat").push().setValue(hashMap);
         texmessage.setText("");
+        final DatabaseReference chatRef = FirebaseDatabase.getInstance().getReference("Chatlist").child(sender).child(userid);
+        chatRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(!dataSnapshot.exists())
+                {
+                    chatRef.child("id").setValue(reciver);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
     private void readMesage(final String myid, final String userid, final String imgUrl)
     {
@@ -151,6 +234,9 @@ public class MessageActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
     private void status(String status)
     {
         refrences = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());

@@ -128,7 +128,6 @@ public class ProfileActivity extends AppCompatActivity {
         circleImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 CheckPermission();
                 openImage();
             }
@@ -181,10 +180,6 @@ public class ProfileActivity extends AppCompatActivity {
                         }
                     })
                     .create().show();
-
-        } else {
-            ActivityCompat.requestPermissions(this,
-                    new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
         }
     }
     private void uploadImage()
