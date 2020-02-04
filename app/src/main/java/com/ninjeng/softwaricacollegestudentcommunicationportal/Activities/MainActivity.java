@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
     private int[] tabIcons = {
             R.drawable.ic_action_chat,
             R.drawable.ic_action_people,
-            R.drawable.ic_audiotrack_dark
     };
     private TabLayout tabLayout;
 
@@ -97,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
         ViewpagerAdapter viewpagerAdapter = new ViewpagerAdapter(getSupportFragmentManager());
         viewpagerAdapter.addFragments(new ChatFragment(),"Chat");
         viewpagerAdapter.addFragments(new AddPeopleFragnment(),"Friend list");
-        viewpagerAdapter.addFragments(new AboutusFragment(),"About us");
         viewPager.setAdapter(viewpagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcons();
@@ -138,7 +136,6 @@ public class MainActivity extends AppCompatActivity {
     private void setupTabIcons() {
         tabLayout.getTabAt(0).setIcon(tabIcons[0]);
         tabLayout.getTabAt(1).setIcon(tabIcons[1]);
-        tabLayout.getTabAt(2).setIcon(tabIcons[2]);
     }
 
 

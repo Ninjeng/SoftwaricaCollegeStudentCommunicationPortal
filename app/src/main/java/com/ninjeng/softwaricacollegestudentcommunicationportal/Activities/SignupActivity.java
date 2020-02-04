@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +28,8 @@ public class SignupActivity extends AppCompatActivity {
     Button btnSignUp;
     TextView textView;
     private FirebaseAuth myauth;
+
+    ProgressBar progressBar;
 
 
     @Override
@@ -58,9 +61,12 @@ public class SignupActivity extends AppCompatActivity {
                 registerUser();
             }
         });
+        progressBar= findViewById(R.id.progressBar);
+
     }
 
     private void registerUser() {
+        progressBar.setVisibility(View.VISIBLE);
         final String id= etStudentId.getEditText().getText().toString();
         final String name= etFullname.getEditText().getText().toString();
         final String batch= spinnerBatch.getSelectedItem().toString();
@@ -78,10 +84,12 @@ public class SignupActivity extends AppCompatActivity {
                             FirebaseDatabase.getInstance().getReference("Users")
                                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                     .setValue(user);
+                            progressBar.setVisibility(View.INVISIBLE);
                             Toast.makeText(SignupActivity.this, "User created", Toast.LENGTH_SHORT).show();
                         }
                         else
                         {
+                            progressBar.setVisibility(View.INVISIBLE);
                             Toast.makeText(SignupActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }

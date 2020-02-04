@@ -50,7 +50,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     CircleImageView circleImageView;
     TextView username, email;
-    Button btnSignOut;
+    Button btnSignOut,btnLocation;
     Intent intent;
     DatabaseReference reference;
     FirebaseUser firebaseUser;
@@ -92,6 +92,14 @@ public class ProfileActivity extends AppCompatActivity {
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(getApplicationContext(),LoginActivity.class));
                 finish();
+            }
+        });
+        btnLocation=findViewById(R.id.btnLocation);
+        btnLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),SearchMap.class);
+                startActivity(intent);
             }
         });
 
