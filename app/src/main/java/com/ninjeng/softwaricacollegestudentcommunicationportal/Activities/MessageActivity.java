@@ -35,11 +35,11 @@ import com.ninjeng.softwaricacollegestudentcommunicationportal.Adapter.MessageAd
 import com.ninjeng.softwaricacollegestudentcommunicationportal.Fragments.APIService;
 import com.ninjeng.softwaricacollegestudentcommunicationportal.Model.Chat;
 import com.ninjeng.softwaricacollegestudentcommunicationportal.Model.User;
-import com.ninjeng.softwaricacollegestudentcommunicationportal.Notification.Client;
-import com.ninjeng.softwaricacollegestudentcommunicationportal.Notification.Data;
-import com.ninjeng.softwaricacollegestudentcommunicationportal.Notification.MyResponse;
-import com.ninjeng.softwaricacollegestudentcommunicationportal.Notification.Sender;
-import com.ninjeng.softwaricacollegestudentcommunicationportal.Notification.Token;
+import com.ninjeng.softwaricacollegestudentcommunicationportal.Notifications.Client;
+import com.ninjeng.softwaricacollegestudentcommunicationportal.Notifications.Data;
+import com.ninjeng.softwaricacollegestudentcommunicationportal.Notifications.MyResponse;
+import com.ninjeng.softwaricacollegestudentcommunicationportal.Notifications.Sender;
+import com.ninjeng.softwaricacollegestudentcommunicationportal.Notifications.Token;
 import com.ninjeng.softwaricacollegestudentcommunicationportal.R;
 
 import java.util.ArrayList;
@@ -110,7 +110,9 @@ public class MessageActivity extends AppCompatActivity {
                 }
             }
         });
-        apiService = Client.getClinet("https://fcm.googleapis.com/").create(APIService.class);
+        apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
+
+
         firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
         refrences= FirebaseDatabase.getInstance().getReference("Users").child(userid);
         refrences.addValueEventListener(new ValueEventListener() {
@@ -199,7 +201,9 @@ public class MessageActivity extends AppCompatActivity {
         hashMap.put("message",message);
         reference.child("Chat").push().setValue(hashMap);
         texmessage.setText("");
-        final DatabaseReference chatRef = FirebaseDatabase.getInstance().getReference("Chatlist").child(firebaseUser.getUid()).child(sender);
+        final DatabaseReference chatRef = FirebaseDatabase.getInstance().getReference("Chatlist")
+                .child(firebaseUser.getUid())
+                .child(sender);
         chatRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -217,8 +221,8 @@ public class MessageActivity extends AppCompatActivity {
         });
 
         final String msg = message;
-        refrences = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
-        refrences.addValueEventListener(new ValueEventListener() {
+        DatabaseReference notific = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+        notific.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
@@ -257,7 +261,7 @@ public class MessageActivity extends AppCompatActivity {
                                     {
                                         if(response.body().success !=1)
                                         {
-                                            Toast.makeText(MessageActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(MessageActivity.this, "Failed", Toast.LENGTH_LONG).show();
                                         }
                                     }
                                 }

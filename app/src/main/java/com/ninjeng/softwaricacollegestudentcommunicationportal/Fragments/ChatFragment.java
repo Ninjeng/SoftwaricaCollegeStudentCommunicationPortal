@@ -21,10 +21,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.ninjeng.softwaricacollegestudentcommunicationportal.Adapter.ChatAdapter;
-import com.ninjeng.softwaricacollegestudentcommunicationportal.Adapter.UserAdapter;
 import com.ninjeng.softwaricacollegestudentcommunicationportal.Model.ChatList;
 import com.ninjeng.softwaricacollegestudentcommunicationportal.Model.User;
-import com.ninjeng.softwaricacollegestudentcommunicationportal.Notification.Token;
+import com.ninjeng.softwaricacollegestudentcommunicationportal.Notifications.Token;
 import com.ninjeng.softwaricacollegestudentcommunicationportal.R;
 
 import java.util.ArrayList;
@@ -64,7 +63,7 @@ public class ChatFragment extends Fragment {
                 for(DataSnapshot snapshot :dataSnapshot.getChildren()) {
                     ChatList chatList = snapshot.getValue(ChatList.class);
                     userList.add(chatList);
-                    
+
                 }
                 ReaChat();
 
@@ -90,11 +89,10 @@ public class ChatFragment extends Fragment {
                 for(DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                     User user = dataSnapshot1.getValue(User.class);
                     for(ChatList chatList: userList) {
-                        if(user.getId().equals(chatList.getReciverid()) ) {
+                        if(user.getId().equals(chatList.getId()) ) {
 
                             mUsers.add(user);
                         }
-
                     }
                 }
                 chatAdapter = new ChatAdapter(getContext(),mUsers ,true);
