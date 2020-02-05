@@ -26,22 +26,30 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.ninjeng.softwaricacollegestudentcommunicationportal.Adapter.MessageAdapter;
-import com.ninjeng.softwaricacollegestudentcommunicationportal.Fragments.PeopleFragment;
+import com.ninjeng.softwaricacollegestudentcommunicationportal.Fragments.APIService;
 import com.ninjeng.softwaricacollegestudentcommunicationportal.Model.Chat;
 import com.ninjeng.softwaricacollegestudentcommunicationportal.Model.User;
+import com.ninjeng.softwaricacollegestudentcommunicationportal.Notification.Client;
+import com.ninjeng.softwaricacollegestudentcommunicationportal.Notification.Data;
+import com.ninjeng.softwaricacollegestudentcommunicationportal.Notification.MyResponse;
+import com.ninjeng.softwaricacollegestudentcommunicationportal.Notification.Sender;
+import com.ninjeng.softwaricacollegestudentcommunicationportal.Notification.Token;
 import com.ninjeng.softwaricacollegestudentcommunicationportal.R;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MessageActivity extends AppCompatActivity {
 
@@ -59,6 +67,8 @@ public class MessageActivity extends AppCompatActivity {
     private  String checker="",myuri;
     private StorageTask storageTask;
     private Uri fileUri;
+    APIService apiService;
+    boolean notify = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,10 +95,10 @@ public class MessageActivity extends AppCompatActivity {
         texmessage=findViewById(R.id.sendmessage);
         intent=getIntent();
         userid= intent.getStringExtra("userid");
-
         btnSendMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                notify=true;
                 String message= texmessage.getText().toString();
                 if(!message.equals(""))
                 {
@@ -100,6 +110,7 @@ public class MessageActivity extends AppCompatActivity {
                 }
             }
         });
+        apiService = Client.getClinet("https://fcm.googleapis.com/").create(APIService.class);
         firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
         refrences= FirebaseDatabase.getInstance().getReference("Users").child(userid);
         refrences.addValueEventListener(new ValueEventListener() {
@@ -188,13 +199,74 @@ public class MessageActivity extends AppCompatActivity {
         hashMap.put("message",message);
         reference.child("Chat").push().setValue(hashMap);
         texmessage.setText("");
-        final DatabaseReference chatRef = FirebaseDatabase.getInstance().getReference("Chatlist").child(sender).child(userid);
+        final DatabaseReference chatRef = FirebaseDatabase.getInstance().getReference("Chatlist").child(firebaseUser.getUid()).child(sender);
         chatRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(!dataSnapshot.exists())
                 {
-                    chatRef.child("id").setValue(reciver);
+                    chatRef.child("id").setValue(sender);
+                    chatRef.child("reciverid").setValue(userid);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        final String msg = message;
+        refrences = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+        refrences.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                if(notify)
+                {
+                    sendNotificaton(reciver,user.getFullname(),msg);
+                }
+
+                notify=false;
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void sendNotificaton(String reciver, final String fullname, final String msg) {
+        final DatabaseReference token = FirebaseDatabase.getInstance().getReference("Tokens");
+        Query query = token.orderByKey().equalTo(reciver);
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot snapshot :dataSnapshot.getChildren())
+                {
+                    Token token1 = snapshot.getValue(Token.class);
+                    Data data = new Data(firebaseUser.getUid(),R.mipmap.ic_launcher,fullname+": "+msg,"New message",
+                            userid);
+                    Sender sender = new Sender(data,token1.getToken());
+                    apiService.sendNotification(sender)
+                            .enqueue(new Callback<MyResponse>() {
+                                @Override
+                                public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
+                                    if(response.code()==200)
+                                    {
+                                        if(response.body().success !=1)
+                                        {
+                                            Toast.makeText(MessageActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<MyResponse> call, Throwable t) {
+
+                                }
+                            });
                 }
             }
 
@@ -204,6 +276,7 @@ public class MessageActivity extends AppCompatActivity {
             }
         });
     }
+
     private void readMesage(final String myid, final String userid, final String imgUrl)
     {
         chats = new ArrayList<>();

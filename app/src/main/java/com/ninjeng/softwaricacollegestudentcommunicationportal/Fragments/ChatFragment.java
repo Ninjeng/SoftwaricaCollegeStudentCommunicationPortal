@@ -19,11 +19,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.ninjeng.softwaricacollegestudentcommunicationportal.Adapter.ChatAdapter;
 import com.ninjeng.softwaricacollegestudentcommunicationportal.Adapter.UserAdapter;
-import com.ninjeng.softwaricacollegestudentcommunicationportal.Model.Chat;
 import com.ninjeng.softwaricacollegestudentcommunicationportal.Model.ChatList;
 import com.ninjeng.softwaricacollegestudentcommunicationportal.Model.User;
+import com.ninjeng.softwaricacollegestudentcommunicationportal.Notification.Token;
 import com.ninjeng.softwaricacollegestudentcommunicationportal.R;
 
 import java.util.ArrayList;
@@ -34,7 +35,6 @@ import java.util.List;
  */
 public class ChatFragment extends Fragment {
     private RecyclerView recyclerView;
-    private UserAdapter userAdapter;
     private ChatAdapter chatAdapter;
     private List<User> mUsers;
     FirebaseUser firebaseUser;
@@ -56,7 +56,7 @@ public class ChatFragment extends Fragment {
         firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
         userList = new ArrayList<>();
 
-        reference = FirebaseDatabase.getInstance().getReference("Chatlist").child(firebaseUser.getUid());
+        reference = FirebaseDatabase.getInstance().getReference("Chatlist").child(firebaseUser.getUid() );
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -75,6 +75,7 @@ public class ChatFragment extends Fragment {
 
             }
         });
+        UpdateToken(FirebaseInstanceId.getInstance().getToken());
 
         return view;
     }
@@ -89,10 +90,11 @@ public class ChatFragment extends Fragment {
                 for(DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                     User user = dataSnapshot1.getValue(User.class);
                     for(ChatList chatList: userList) {
-                        if(user.getId().equals(chatList.getId())) {
+                        if(user.getId().equals(chatList.getReciverid()) ) {
 
                             mUsers.add(user);
                         }
+
                     }
                 }
                 chatAdapter = new ChatAdapter(getContext(),mUsers ,true);
@@ -104,6 +106,12 @@ public class ChatFragment extends Fragment {
 
             }
         });
+    }
+    private void UpdateToken(String token)
+    {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Tokens");
+        Token token1 = new Token(token);
+        reference.child(firebaseUser.getUid()).setValue(token1);
     }
 
 
