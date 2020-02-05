@@ -57,14 +57,33 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Chat chat = chats.get(position);
-        holder.showMessage.setText(chat.getMessage());
-        if(imgUrl.equals("default"))
+        if(chat.getType()=="text")
         {
-            holder.profile.setImageResource(R.mipmap.ic_launcher);
+            holder.mgsImg.setVisibility(View.GONE);
+            holder.showMessage.setText(chat.getMessage());
+            if(imgUrl.equals("default"))
+            {
+                holder.profile.setImageResource(R.mipmap.ic_launcher);
+            }
+            else {
+                Glide.with(context).load(imgUrl).into(holder.profile);
+            }
         }
-        else {
-            Glide.with(context).load(imgUrl).into(holder.profile);
+        else if(chat.getType()=="image")
+        {
+            holder.showMessage.setVisibility(View.GONE);
+            holder.mgsImg.setVisibility(View.VISIBLE);
+            Glide.with(context).load(chat.getMessage()).into(holder.mgsImg);
+
+            if(imgUrl.equals("default"))
+            {
+                holder.profile.setImageResource(R.mipmap.ic_launcher);
+            }
+            else {
+                Glide.with(context).load(imgUrl).into(holder.profile);
+            }
         }
+
     }
 
     @Override
@@ -75,11 +94,15 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     public  class ViewHolder extends RecyclerView.ViewHolder{
         public TextView showMessage;
         public CircleImageView profile;
+        private ImageView mgsImg;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             showMessage=itemView.findViewById(R.id.show_message);
             profile=itemView.findViewById(R.id.profile_image);
+            mgsImg=itemView.findViewById(R.id.msgImage);
+
         }
     }
 

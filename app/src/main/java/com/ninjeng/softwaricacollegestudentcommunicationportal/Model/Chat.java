@@ -4,11 +4,21 @@ public class Chat {
     private String message;
     private String msgReciver;
     private String msgSender;
+    private String type;
 
-    public Chat(String message, String msgReciver, String msgSender) {
+    public Chat(String message, String msgReciver, String msgSender,String type) {
         this.message = message;
         this.msgReciver = msgReciver;
         this.msgSender = msgSender;
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public Chat() {
