@@ -58,7 +58,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onClick(View v) {
 
-                startActivity(new Intent( getApplicationContext(),MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                startActivity(new Intent( getApplicationContext(),ResetPasswordActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             }
         });
     }
