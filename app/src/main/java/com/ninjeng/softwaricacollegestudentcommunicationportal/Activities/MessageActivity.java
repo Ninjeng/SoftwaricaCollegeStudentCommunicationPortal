@@ -26,20 +26,13 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.ninjeng.softwaricacollegestudentcommunicationportal.Adapter.MessageAdapter;
-import com.ninjeng.softwaricacollegestudentcommunicationportal.Fragments.APIService;
 import com.ninjeng.softwaricacollegestudentcommunicationportal.Model.Chat;
 import com.ninjeng.softwaricacollegestudentcommunicationportal.Model.User;
-import com.ninjeng.softwaricacollegestudentcommunicationportal.Notifications.Client;
-import com.ninjeng.softwaricacollegestudentcommunicationportal.Notifications.Data;
-import com.ninjeng.softwaricacollegestudentcommunicationportal.Notifications.MyResponse;
-import com.ninjeng.softwaricacollegestudentcommunicationportal.Notifications.Sender;
-import com.ninjeng.softwaricacollegestudentcommunicationportal.Notifications.Token;
 import com.ninjeng.softwaricacollegestudentcommunicationportal.R;
 
 import java.util.ArrayList;
@@ -47,9 +40,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MessageActivity extends AppCompatActivity {
 
@@ -67,7 +57,6 @@ public class MessageActivity extends AppCompatActivity {
     private  String checker="",myuri;
     private StorageTask storageTask;
     private Uri fileUri;
-    APIService apiService;
     boolean notify = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +99,6 @@ public class MessageActivity extends AppCompatActivity {
                 }
             }
         });
-        apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
 
 
         firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
@@ -202,15 +190,14 @@ public class MessageActivity extends AppCompatActivity {
         reference.child("Chat").push().setValue(hashMap);
         texmessage.setText("");
         final DatabaseReference chatRef = FirebaseDatabase.getInstance().getReference("Chatlist")
-                .child(firebaseUser.getUid())
-                .child(sender);
+                .child(reciver);
         chatRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(!dataSnapshot.exists())
                 {
                     chatRef.child("id").setValue(sender);
-                    chatRef.child("reciverid").setValue(userid);
+                    chatRef.child("reciverid").setValue(reciver);
                 }
             }
 
@@ -228,7 +215,6 @@ public class MessageActivity extends AppCompatActivity {
                 User user = dataSnapshot.getValue(User.class);
                 if(notify)
                 {
-                    sendNotificaton(reciver,user.getFullname(),msg);
                 }
 
                 notify=false;
@@ -241,45 +227,6 @@ public class MessageActivity extends AppCompatActivity {
         });
     }
 
-    private void sendNotificaton(String reciver, final String fullname, final String msg) {
-        final DatabaseReference token = FirebaseDatabase.getInstance().getReference("Tokens");
-        Query query = token.orderByKey().equalTo(reciver);
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot snapshot :dataSnapshot.getChildren())
-                {
-                    Token token1 = snapshot.getValue(Token.class);
-                    Data data = new Data(firebaseUser.getUid(),R.mipmap.ic_launcher,fullname+": "+msg,"New message",
-                            userid);
-                    Sender sender = new Sender(data,token1.getToken());
-                    apiService.sendNotification(sender)
-                            .enqueue(new Callback<MyResponse>() {
-                                @Override
-                                public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
-                                    if(response.code()==200)
-                                    {
-                                        if(response.body().success !=1)
-                                        {
-                                            Toast.makeText(MessageActivity.this, "Failed", Toast.LENGTH_LONG).show();
-                                        }
-                                    }
-                                }
-
-                                @Override
-                                public void onFailure(Call<MyResponse> call, Throwable t) {
-
-                                }
-                            });
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
 
     private void readMesage(final String myid, final String userid, final String imgUrl)
     {
