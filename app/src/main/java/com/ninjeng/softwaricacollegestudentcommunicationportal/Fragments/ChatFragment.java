@@ -19,6 +19,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.ninjeng.softwaricacollegestudentcommunicationportal.Adapter.ChatAdapter;
 import com.ninjeng.softwaricacollegestudentcommunicationportal.Adapter.UserAdapter;
 import com.ninjeng.softwaricacollegestudentcommunicationportal.Model.Chat;
 import com.ninjeng.softwaricacollegestudentcommunicationportal.Model.ChatList;
@@ -34,6 +35,7 @@ import java.util.List;
 public class ChatFragment extends Fragment {
     private RecyclerView recyclerView;
     private UserAdapter userAdapter;
+    private ChatAdapter chatAdapter;
     private List<User> mUsers;
     FirebaseUser firebaseUser;
     DatabaseReference reference;
@@ -93,8 +95,8 @@ public class ChatFragment extends Fragment {
                         }
                     }
                 }
-                userAdapter = new UserAdapter(getContext(),mUsers ,true);
-                recyclerView.setAdapter(userAdapter);
+                chatAdapter = new ChatAdapter(getContext(),mUsers ,true);
+                recyclerView.setAdapter(chatAdapter);
             }
 
             @Override

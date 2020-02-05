@@ -14,7 +14,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.ninjeng.softwaricacollegestudentcommunicationportal.Activities.MessageActivity;
+import com.ninjeng.softwaricacollegestudentcommunicationportal.Model.Chat;
 import com.ninjeng.softwaricacollegestudentcommunicationportal.Model.User;
 import com.ninjeng.softwaricacollegestudentcommunicationportal.R;
 
@@ -37,7 +43,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.user_display,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.user_display2,parent,false);
 
         return new ViewHolder(view);
     }
@@ -52,6 +58,14 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         }
         else {
             Glide.with(context).load(user.getProfileImage()).into(holder.profile);
+        }
+        if(isChat)
+        {
+            lastMessge(user.getId(),holder.lastmessage);
+        }
+        else
+        {
+            holder.lastmessage.setVisibility(View.INVISIBLE);
         }
 
         if(isChat)
@@ -103,11 +117,40 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
             lastmessage=itemView.findViewById(R.id.lastMessage);
         }
     }
-    private void lastMessge(String userid, TextView lastmessage)
+    private void lastMessge(final String userid, final TextView lastmessage)
     {
         thelastmessage = "default";
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        
+        final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Chat");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot dataSnapshot1: dataSnapshot.getChildren())
+                {
+                    Chat chat = dataSnapshot1.getValue(Chat.class);
+                    if(chat.getMsgReciver().equals(firebaseUser.getUid() )&& chat.getMsgSender().equals(userid)
+                    || chat.getMsgSender().equals(firebaseUser.getUid() )&& chat.getMsgReciver().equals(userid))
+                    {
+                        thelastmessage= chat.getMessage();
+
+                    }
+                }
+                switch (thelastmessage)
+                {
+                    case "default":
+                        lastmessage.setText("No message");
+                        break;
+                        default:
+                            lastmessage.setText(thelastmessage);
+                }
+                thelastmessage="default";
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
 }

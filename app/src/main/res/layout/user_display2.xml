@@ -19,6 +19,7 @@
         android:layout_toRightOf="@+id/img_off"
         android:layout_marginLeft="25dp"
         android:textSize="18dp"
+        android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
@@ -31,7 +32,7 @@
         android:layout_marginRight="185dp"
         android:layout_toRightOf="@id/img_on"
         android:text="lastmessage"
-        android:textSize="18dp" />
+        android:textSize="15dp" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/img_on"
