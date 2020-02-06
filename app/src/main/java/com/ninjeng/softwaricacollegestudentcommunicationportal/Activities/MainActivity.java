@@ -1,5 +1,8 @@
 package com.ninjeng.softwaricacollegestudentcommunicationportal.Activities;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -22,15 +25,18 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.ninjeng.softwaricacollegestudentcommunicationportal.Fragments.AboutusFragment;
 import com.ninjeng.softwaricacollegestudentcommunicationportal.Fragments.AddPeopleFragnment;
 import com.ninjeng.softwaricacollegestudentcommunicationportal.Fragments.ChatFragment;
 import com.ninjeng.softwaricacollegestudentcommunicationportal.Model.User;
+import com.ninjeng.softwaricacollegestudentcommunicationportal.Notification.CreateChannel;
 import com.ninjeng.softwaricacollegestudentcommunicationportal.R;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -45,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     CircleImageView profileImage;
     TextView tvUsername;
     FirebaseUser firebaseUser;
+
     DatabaseReference reference;
     private int[] tabIcons = {
             R.drawable.ic_action_chat,
@@ -90,6 +97,8 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        CreateChannel createChannel = new CreateChannel(this);
+        createChannel.CreateChannel();
         tabLayout = findViewById(R.id.tab_layout);
         ViewPager viewPager = findViewById(R.id.view_pager);
 
@@ -133,6 +142,8 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "No sensor found", Toast.LENGTH_SHORT).show();
         }
     }
+
+
     private void setupTabIcons() {
         tabLayout.getTabAt(0).setIcon(tabIcons[0]);
         tabLayout.getTabAt(1).setIcon(tabIcons[1]);

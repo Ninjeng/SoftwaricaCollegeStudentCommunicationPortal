@@ -43,6 +43,12 @@
         android:layout_below="@id/bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:visibility="gone"
+        android:layout_centerVertical="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <RelativeLayout
         android:id="@+id/messageBox"
@@ -52,7 +58,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageButton
-            android:id="@+id/btnImage"
+            android:id="@+id/btnSelectImage"
             android:background="@drawable/ic_action_images"
             android:layout_width="30dp"
             android:layout_centerVertical="true"
@@ -60,10 +66,11 @@
             android:layout_alignParentLeft="true"
             android:layout_height="30dp"/>
 
+
         <EditText
             android:id="@+id/sendmessage"
             android:layout_toLeftOf="@id/btnsend"
-            android:layout_toRightOf="@id/btnImage"
+            android:layout_toRightOf="@id/btnSelectImage"
             android:layout_width="match_parent"
             android:layout_centerVertical="true"
             android:hint="Message "

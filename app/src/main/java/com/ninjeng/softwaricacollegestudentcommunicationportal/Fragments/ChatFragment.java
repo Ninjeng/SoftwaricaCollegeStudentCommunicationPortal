@@ -19,8 +19,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.ninjeng.softwaricacollegestudentcommunicationportal.Adapter.UserAdapter;
-import com.ninjeng.softwaricacollegestudentcommunicationportal.Model.Chat;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.ninjeng.softwaricacollegestudentcommunicationportal.Adapter.ChatAdapter;
 import com.ninjeng.softwaricacollegestudentcommunicationportal.Model.ChatList;
 import com.ninjeng.softwaricacollegestudentcommunicationportal.Model.User;
 import com.ninjeng.softwaricacollegestudentcommunicationportal.R;
@@ -33,7 +33,7 @@ import java.util.List;
  */
 public class ChatFragment extends Fragment {
     private RecyclerView recyclerView;
-    private UserAdapter userAdapter;
+    private ChatAdapter chatAdapter;
     private List<User> mUsers;
     FirebaseUser firebaseUser;
     DatabaseReference reference;
@@ -54,7 +54,7 @@ public class ChatFragment extends Fragment {
         firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
         userList = new ArrayList<>();
 
-        reference = FirebaseDatabase.getInstance().getReference("Chatlist").child(firebaseUser.getUid());
+        reference = FirebaseDatabase.getInstance().getReference("Chatlist") ;
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -62,7 +62,7 @@ public class ChatFragment extends Fragment {
                 for(DataSnapshot snapshot :dataSnapshot.getChildren()) {
                     ChatList chatList = snapshot.getValue(ChatList.class);
                     userList.add(chatList);
-                    
+
                 }
                 ReaChat();
 
@@ -87,14 +87,14 @@ public class ChatFragment extends Fragment {
                 for(DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                     User user = dataSnapshot1.getValue(User.class);
                     for(ChatList chatList: userList) {
-                        if(user.getId().equals(chatList.getId())) {
+                        if(user.getId().equals(chatList.getReciverid()) ) {
 
                             mUsers.add(user);
                         }
                     }
                 }
-                userAdapter = new UserAdapter(getContext(),mUsers ,true);
-                recyclerView.setAdapter(userAdapter);
+                chatAdapter = new ChatAdapter(getContext(),mUsers ,true);
+                recyclerView.setAdapter(chatAdapter);
             }
 
             @Override
