@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     CircleImageView profileImage;
     TextView tvUsername;
     FirebaseUser firebaseUser;
-    NotificationManagerCompat notificationManagerCompat;
+
     DatabaseReference reference;
     private int[] tabIcons = {
             R.drawable.ic_action_chat,
@@ -67,7 +67,6 @@ public class MainActivity extends AppCompatActivity {
         profileImage=findViewById(R.id.profile_image);
         tvUsername=findViewById(R.id.username);
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        notificationManagerCompat = NotificationManagerCompat.from(this);
 
         reference= FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
         reference.addValueEventListener(new ValueEventListener() {
@@ -100,7 +99,6 @@ public class MainActivity extends AppCompatActivity {
         });
         CreateChannel createChannel = new CreateChannel(this);
         createChannel.CreateChannel();
-        DisplayNotification();
         tabLayout = findViewById(R.id.tab_layout);
         ViewPager viewPager = findViewById(R.id.view_pager);
 
@@ -145,28 +143,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void DisplayNotification() {
-        reference= FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                final User user = dataSnapshot.getValue(User.class);
-                Notification notification = new NotificationCompat.Builder(getApplicationContext(),CreateChannel.CHANNEL_1)
-                .setSmallIcon(R.drawable.ic_action_person)
-                .setContentTitle("Welcome ").setContentText(user.getFullname())
-                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                .build();
-                notificationManagerCompat.notify(1,notification);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-//
-
-    }
 
     private void setupTabIcons() {
         tabLayout.getTabAt(0).setIcon(tabIcons[0]);
