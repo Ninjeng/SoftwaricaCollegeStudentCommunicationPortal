@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -37,6 +38,12 @@ public class SplashScreen extends AppCompatActivity {
         else
         {
             textView.setVisibility(View.VISIBLE);
+            textView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(WifiManager.ACTION_PICK_WIFI_NETWORK));
+                }
+            });
         }
 
     }
@@ -52,7 +59,8 @@ public class SplashScreen extends AppCompatActivity {
 
             return true;
 
-        } else if (network.isConnected()) {
+        }
+        else if (network.isConnected()) {
 
             return true;
 
@@ -62,4 +70,5 @@ public class SplashScreen extends AppCompatActivity {
 
         }
     }
+
 }

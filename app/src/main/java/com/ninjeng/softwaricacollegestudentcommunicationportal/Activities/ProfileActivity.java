@@ -9,6 +9,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
@@ -50,7 +51,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     CircleImageView circleImageView;
     TextView username, email;
-    Button btnSignOut,btnLocation;
+    Button btnSignOut,btnLocation,btnExit;
     Intent intent;
     DatabaseReference reference;
     FirebaseUser firebaseUser;
@@ -85,6 +86,14 @@ public class ProfileActivity extends AppCompatActivity {
         username = findViewById(R.id.pflusername);
         email = findViewById(R.id.pflemail);
         btnSignOut= findViewById(R.id.btnSignOut);
+        btnExit= findViewById(R.id.btnExit);
+        btnExit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                System.exit(0);
+            }
+        });
         progressBar = findViewById(R.id.progressBar);
         btnSignOut.setOnClickListener(new View.OnClickListener() {
             @Override

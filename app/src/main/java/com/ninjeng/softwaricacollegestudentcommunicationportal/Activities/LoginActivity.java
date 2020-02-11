@@ -9,6 +9,7 @@ import android.app.Notification;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.os.Vibrator;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -59,7 +60,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        notificationManagerCompat = NotificationManagerCompat.from(this);
         etStudenId=findViewById(R.id.email);
         tvForgotPassword=findViewById(R.id.forgotPassword);
         etPassword=findViewById(R.id.password);
@@ -86,12 +86,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.btnLogin:
             {
                 progressBar.setVisibility(View.VISIBLE);
-                String email = etStudenId.getEditText().getText().toString();
+                final String email = etStudenId.getEditText().getText().toString();
                 String password= etPassword.getEditText().getText().toString();
                 if(TextUtils.isEmpty(email)|| TextUtils.isEmpty(password))
                 {
                     progressBar.setVisibility(View.INVISIBLE);
                     Toast.makeText(this, "Enter Values", Toast.LENGTH_SHORT).show();
+                    Vibrator vibrator = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                    vibrator.vibrate(50);
                 }
                 else
                 {
@@ -104,14 +106,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                        Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                                        startActivity(intent);
-                                       finish();
-                                       DisplayNotification();
+                                       DisplayNotification(email);
                                        progressBar.setVisibility(View.INVISIBLE);
+                                       finish();
 
                                    }
                                    else {
                                        progressBar.setVisibility(View.INVISIBLE);
                                        Toast.makeText(LoginActivity.this, "Authentication Failed", Toast.LENGTH_SHORT).show();
+                                       Vibrator vibrator = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+                                       vibrator.vibrate(500);
+                                       vibrator.vibrate(500);
                                    }
                                }
                            });
@@ -128,28 +133,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
 
     }
-    private void DisplayNotification() {
-        reference= FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                final User user = dataSnapshot.getValue(User.class);
+    private void DisplayNotification(String email) {
+
                 Notification notification = new NotificationCompat.Builder(getApplicationContext(), CreateChannel.CHANNEL_1)
                         .setSmallIcon(R.drawable.ic_action_person)
-                        .setContentTitle("Welcome ").setContentText(user.getFullname())
+                        .setContentTitle("Welcome ").setContentText(email)
                         .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                         .build();
                 notificationManagerCompat.notify(1,notification);
             }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
-//
-
-    }
 
     public boolean checkingLogin (String username, String password){
         StrictModeClass.StrictMode();
@@ -163,25 +157,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }catch (Exception e){
             return false;
         }
-
-//        auth.signInWithEmailAndPassword(username,password)
-//                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<AuthResult> task) {
-//                        if(task.isSuccessful())
-//                        {
-//                            return;
-//                        }
-//                        else {
-//
-//                        }
-//                    }
-//                });
-
-//        AuthResult authResult = auth.signInWithEmailAndPassword(username,password).getResult();
-//        Tasks.await(auth.signInWithEmailAndPassword(username,password));
-//        return  true;
-
     }
 
 
