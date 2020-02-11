@@ -38,7 +38,8 @@
         android:background="@color/colorPrimaryDark"
         app:tabSelectedTextColor="@color/colorWhite"
         app:tabIndicatorColor="@color/colorWhite"
-        app:tabGravity="fill"
+        app:tabGravity="center"
+        android:textAlignment="center"
         app:tabTextColor="@color/colorWhite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
