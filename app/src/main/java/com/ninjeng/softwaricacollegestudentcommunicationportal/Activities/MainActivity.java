@@ -1,9 +1,10 @@
 package com.ninjeng.softwaricacollegestudentcommunicationportal.Activities;
 
+import android.Manifest;
 import android.app.Notification;
-import android.app.NotificationManager;
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -33,10 +34,12 @@ import com.ninjeng.softwaricacollegestudentcommunicationportal.R;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
-
 import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -50,6 +53,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class MainActivity extends AppCompatActivity {
     CircleImageView profileImage;
     TextView tvUsername;
+    int score;
     FirebaseUser firebaseUser;
 
     DatabaseReference reference;
@@ -141,6 +145,17 @@ public class MainActivity extends AppCompatActivity {
         }else {
             Toast.makeText(this, "No sensor found", Toast.LENGTH_SHORT).show();
         }
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_DENIED)
+        {
+            GrantPermission();
+        }
+        if(score==0)
+        {
+
+            score= score+1;
+        }
     }
 
 
@@ -223,5 +238,31 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         status("offline");
+    }
+
+
+
+    private void GrantPermission() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE)) {
+
+            new AlertDialog.Builder(this)
+                    .setTitle("Storage Permission needed")
+                    .setMessage("By granting permission user can send and upload images")
+                    .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            ActivityCompat.requestPermissions(MainActivity.this,
+                                    new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+                        }
+                    })
+                    .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .create().show();
+        }
     }
 }

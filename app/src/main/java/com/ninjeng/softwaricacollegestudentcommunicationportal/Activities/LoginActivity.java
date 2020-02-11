@@ -68,6 +68,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         btnLogin.setOnClickListener(this);
         btnSignup.setOnClickListener(this);
         auth = FirebaseAuth.getInstance();
+        notificationManagerCompat = NotificationManagerCompat.from(this);
         progressBar= findViewById(R.id.progressBar);
         tvForgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,6 +78,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
         });
     }
+
 
     @Override
     public void onClick(View v) {
@@ -103,8 +105,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                                        startActivity(intent);
                                        finish();
-                                       progressBar.setVisibility(View.INVISIBLE);
                                        DisplayNotification();
+                                       progressBar.setVisibility(View.INVISIBLE);
 
                                    }
                                    else {
@@ -113,17 +115,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                    }
                                }
                            });
-//                    if(checkingLogin(email,password)){
-//                        Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-//                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-//                        startActivity(intent);
-//                        finish();
-//                        progressBar.setVisibility(View.INVISIBLE);
-//                        DisplayNotification();
-//                    }else {
-//                        progressBar.setVisibility(View.INVISIBLE);
-//                        Toast.makeText(LoginActivity.this, "Authentication Failed", Toast.LENGTH_SHORT).show();
-//                    }
                 }
                 break;
 
@@ -159,7 +150,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 //
 
     }
-
 
     public boolean checkingLogin (String username, String password){
         StrictModeClass.StrictMode();

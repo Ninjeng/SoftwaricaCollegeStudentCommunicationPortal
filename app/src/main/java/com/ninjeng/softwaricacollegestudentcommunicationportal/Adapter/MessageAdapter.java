@@ -14,9 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.ninjeng.softwaricacollegestudentcommunicationportal.Activities.MessageActivity;
 import com.ninjeng.softwaricacollegestudentcommunicationportal.Model.Chat;
-import com.ninjeng.softwaricacollegestudentcommunicationportal.Model.User;
 import com.ninjeng.softwaricacollegestudentcommunicationportal.R;
 
 import java.util.List;
@@ -57,10 +55,21 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Chat chat = chats.get(position);
-        if(chat.getType()=="text")
-        {
-            holder.mgsImg.setVisibility(View.GONE);
-            holder.showMessage.setText(chat.getMessage());
+
+            if(chat.getType().equals("text"))
+            {
+                holder.mgsImg.setVisibility(View.GONE);
+                holder.showMessage.setVisibility(View.VISIBLE);
+                holder.showMessage.setText(chat.getMessage());
+
+            }
+            else
+            {
+                holder.mgsImg.setVisibility(View.VISIBLE);
+                holder.showMessage.setVisibility(View.GONE);
+                Glide.with(context).load(chat.getMessage()).into(holder.mgsImg);
+            }
+
             if(imgUrl.equals("default"))
             {
                 holder.profile.setImageResource(R.mipmap.ic_launcher);
@@ -68,13 +77,12 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             else {
                 Glide.with(context).load(imgUrl).into(holder.profile);
             }
-        }
-        else if(chat.getType()=="image")
-        {
-            holder.showMessage.setVisibility(View.GONE);
-            holder.mgsImg.setVisibility(View.VISIBLE);
-            Glide.with(context).load(chat.getMessage()).into(holder.mgsImg);
 
+         if(chat.getType()=="image")
+        {
+            holder.mgsImg.setVisibility(View.VISIBLE);
+            holder.showMessage.setVisibility(View.GONE);
+            Glide.with(context).load(chat.getMessage()).into(holder.mgsImg);
             if(imgUrl.equals("default"))
             {
                 holder.profile.setImageResource(R.mipmap.ic_launcher);
