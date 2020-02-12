@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     TextView tvUsername;
     int score;
     FirebaseUser firebaseUser;
-
+    NotificationManagerCompat notificationManagerCompat;
     DatabaseReference reference;
     private int[] tabIcons = {
             R.drawable.ic_action_chat,
@@ -157,7 +157,27 @@ public class MainActivity extends AppCompatActivity {
             score= score+1;
         }
     }
+    private void DisplayNotification() {
+        reference= FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                final User user = dataSnapshot.getValue(User.class);
+                Notification notification = new NotificationCompat.Builder(getApplicationContext(), CreateChannel.CHANNEL_1)
+                        .setSmallIcon(R.drawable.ic_action_person)
+                        .setContentTitle("Welcome ").setContentText(user.getFullname())
+                        .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                        .build();
+                notificationManagerCompat.notify(1,notification);
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
 
     private void setupTabIcons() {
         tabLayout.getTabAt(0).setIcon(tabIcons[0]);
