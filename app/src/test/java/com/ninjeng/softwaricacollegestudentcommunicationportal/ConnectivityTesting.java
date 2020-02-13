@@ -12,6 +12,5 @@ public class ConnectivityTesting {
     public void checkConnection()
     {
 
-
     }
 }
