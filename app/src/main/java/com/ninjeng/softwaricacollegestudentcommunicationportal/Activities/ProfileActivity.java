@@ -55,7 +55,8 @@ public class ProfileActivity extends AppCompatActivity {
     Intent intent;
     DatabaseReference reference;
     FirebaseUser firebaseUser;
-     String fuId="";
+    int count =0;
+    String fuId="";
      ProgressBar progressBar;
     StorageReference storageReference;
     private Uri imageURl;
@@ -90,7 +91,18 @@ public class ProfileActivity extends AppCompatActivity {
         btnExit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.exit(0);
+                if(count==1)
+                {
+                    moveTaskToBack(true);
+                    android.os.Process.killProcess(android.os.Process.myPid());
+                    finish();
+                }
+                else
+                {
+                    Toast.makeText(ProfileActivity.this, "Press again to quit.", Toast.LENGTH_SHORT).show();
+                    count++;
+                }
+
             }
         });
         progressBar = findViewById(R.id.progressBar);
