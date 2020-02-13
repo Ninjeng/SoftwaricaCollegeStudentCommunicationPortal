@@ -122,9 +122,9 @@ public class MainActivity extends AppCompatActivity {
                 if(event.sensor.getType()==Sensor.TYPE_PROXIMITY){
 
                     if(event.values[0]==0){
-                        params.flags |= WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
-                        params.screenBrightness = 0;
-                        getWindow().setAttributes(params);
+                        Intent intent = new Intent(getApplicationContext(),ProfileActivity.class);
+                        intent.putExtra("userid",firebaseUser.getUid());
+                        startActivity(intent);
                     }
                     else{
                         params.flags |= WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
