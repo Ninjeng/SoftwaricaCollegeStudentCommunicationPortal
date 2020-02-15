@@ -51,7 +51,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     CircleImageView circleImageView;
     TextView username, email;
-    Button btnSignOut,btnLocation,btnExit;
+    Button btnSignOut,btnLocation,btnExit,btnDeleteUser;
     Intent intent;
     DatabaseReference reference;
     FirebaseUser firebaseUser;
@@ -71,6 +71,7 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         intent=getIntent();
         final String userid= intent.getStringExtra("userid");
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         fuId=userid;
         storageReference = FirebaseStorage.getInstance().getReference("Uploads");
         Toolbar toolbar =findViewById(R.id.toolbar);
@@ -88,6 +89,49 @@ public class ProfileActivity extends AppCompatActivity {
         email = findViewById(R.id.pflemail);
         btnSignOut= findViewById(R.id.btnSignOut);
         btnExit= findViewById(R.id.btnExit);
+        btnDeleteUser= findViewById(R.id.deleteAccount);
+        btnDeleteUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder dialog = new AlertDialog.Builder(ProfileActivity.this);
+                dialog.setTitle("Are you sure?");
+                dialog.setMessage("Deleteing the account means your all data will be removed from the system");
+                dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        progressBar.setVisibility(View.VISIBLE);
+                        firebaseUser.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if(task.isSuccessful())
+                                {
+                                    Toast.makeText(ProfileActivity.this, "Account has been deleted", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(intent);
+                                    progressBar.setVisibility(View.GONE);
+
+                                }
+                                else
+                                {
+                                    Toast.makeText(ProfileActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                    progressBar.setVisibility(View.GONE);
+                                }
+                            }
+                        });
+                    }
+                });
+                dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                AlertDialog alertDialog = dialog.create();
+                alertDialog.show();
+            }
+        });
         btnExit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,6 +155,8 @@ public class ProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 finish();
             }
         });

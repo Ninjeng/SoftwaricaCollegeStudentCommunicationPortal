@@ -185,8 +185,7 @@ public class MessageActivity extends AppCompatActivity {
                     }
                     return fileReference.getDownloadUrl();
                 }
-            })
-                    .addOnCompleteListener(new OnCompleteListener<Uri>() {
+            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
                 @Override
                 public void onComplete(@NonNull Task<Uri> task) {
                     if(task.isSuccessful())
