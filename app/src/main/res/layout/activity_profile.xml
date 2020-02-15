@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".Activities.ProfileActivity">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -55,47 +55,67 @@
                 android:visibility="invisible"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
-            <Button
-                android:id="@+id/btnLocation"
-                android:text="Open Location"
-                android:textColor="@color/colorWhite"
-                android:textSize="20dp"
-                android:layout_below="@id/progressBar"
-                android:padding="8dp"
-                android:textStyle="bold"
-                android:background="@drawable/roundedbutton"
-                android:backgroundTint="@color/colorBackground"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+
 
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
+    <RelativeLayout
+        android:padding="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <Button
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:id="@+id/btnLocation"
+            android:text="Open Location"
+            android:textColor="@color/colorWhite"
+            android:textSize="20dp"
+            android:layout_above="@id/btnSignOut"
+            android:layout_marginBottom="20dp"
+            android:textStyle="bold"
+            android:background="@drawable/roundedbutton"
+            android:backgroundTint="@color/colorViolet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/btnSignOut"
+            android:text="Sign out"
+            android:textColor="@color/colorWhite"
+            android:textSize="20dp"
+            android:padding="8dp"
+            android:textStyle="bold"
+            android:layout_above="@id/deleteAccount"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/roundedbutton"
+            android:backgroundTint="@color/colorRed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/deleteAccount"
+            android:text="Delete account"
+            android:textColor="@color/colorWhite"
+            android:textSize="20dp"
+            android:padding="8dp"
+            android:layout_above="@id/btnExit"
+            android:textStyle="bold"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/roundedbutton"
+            android:backgroundTint="@color/colorViolet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/btnExit"
+            android:text="Exit"
+            android:textColor="@color/colorWhite"
+            android:layout_alignParentBottom="true"
+            android:textSize="20dp"
+            android:padding="8dp"
+            android:textStyle="bold"
+            android:background="@drawable/roundedbutton"
+            android:backgroundTint="@color/colorViolet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
 
-    <Button
-        android:id="@+id/btnSignOut"
-        android:text="Sign out"
-        android:textColor="@color/colorWhite"
-        android:layout_alignParentBottom="true"
-        android:textSize="20dp"
-        android:padding="8dp"
-        android:textStyle="bold"
-        android:layout_marginBottom="100dp"
-        android:background="@drawable/roundedbutton"
-        android:backgroundTint="@color/colorRed"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <Button
-        android:id="@+id/btnExit"
-        android:text="Exit"
-        android:textColor="@color/colorWhite"
-        android:layout_alignParentBottom="true"
-        android:textSize="20dp"
-        android:padding="8dp"
-        android:textStyle="bold"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/roundedbutton"
-        android:backgroundTint="@color/colorViolet"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
 </RelativeLayout>
